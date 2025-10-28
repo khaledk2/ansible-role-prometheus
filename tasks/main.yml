@@ -86,7 +86,7 @@
 
 - name: prometheus | docker-python
   become: true
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: python3-docker
     state: present
 
@@ -98,7 +98,7 @@
 
 - name: prometheus | docker alertmanager
   become: true
-  docker_container:
+  community.docker.docker_container:
     command: >
       --config.file=/etc/prometheus/alertmanager.yml
       --storage.path=/alertmanager
@@ -121,7 +121,7 @@
 
 - name: prometheus | docker blackbox-exporter
   become: true
-  docker_container:
+  community.docker.docker_container:
     command: "--config.file=/etc/prometheus/blackbox-exporter.yml"
     image: prom/blackbox-exporter:v{{ prometheus_blackboxexporter_version }}
     name: blackbox-exporter
@@ -141,7 +141,7 @@
 
 - name: prometheus | docker prometheus
   become: true
-  docker_container:
+  community.docker.docker_container:
     command: >
       --config.file=/etc/prometheus/prometheus.yml
       --storage.tsdb.path=/prometheus
